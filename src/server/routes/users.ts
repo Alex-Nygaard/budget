@@ -31,16 +31,15 @@ userRouter.put('/:id', async (req: Request, res: Response) => {
         const result = await userController.update(id, payload);
         return res.status(201).send(result);
     } catch (error) {
-        
+        return res.status(400).send({err: "Bad request."})
     }
-    
 });
 
 userRouter.delete('/:id', async (req: Request, res: Response) => {
     try {
         const id = Number(req.params.id)
         const result = await userController.deleteById(id);
-        return res.status(204).send({
+        return res.status(202).send({
             success: result
         });
     } catch (error) {
@@ -50,7 +49,7 @@ userRouter.delete('/:id', async (req: Request, res: Response) => {
 
 userRouter.get('/', async (req: Request, res: Response) => {
     try {
-        const result = userController.getAll();
+        const result = await userController.getAll();
         return res.status(200).send(result);
     } catch (error) {
         return res.status(404).send({err: "Not found."})
