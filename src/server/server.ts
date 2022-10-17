@@ -3,8 +3,12 @@ dotenv.config();
 import http from 'http';
 import express, { Express } from 'express';
 import morgan from 'morgan';
+import dbInit from './db/init';
+import router from './routes';
 
 const app: Express = express();
+
+dbInit(); // initialize database
 
 /** Logging */
 app.use(morgan('dev'));
@@ -28,7 +32,7 @@ app.use((req, res, next) => {
 });
 
 /** Routes */
-// app.use('/', routes);
+app.use('/', router);
 
 /** Error handling */
 app.use((req, res, next) => {
