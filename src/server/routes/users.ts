@@ -1,6 +1,6 @@
-import User from '../db/models/User'
+import {User} from '../db/models'
+import {userController} from '../controllers';
 import { Router, Request, Response } from "express";
-import * as userController from '../controllers/users/userController';
 
 const userRouter = Router();
 
@@ -15,12 +15,12 @@ userRouter.get('/:id', async (req: Request, res: Response) => {
 });
 
 userRouter.post('/', async (req: Request, res: Response) => {
-    const payload: User = req.body
     try {
+        const payload: User = req.body
         const result = await userController.create(payload);
         return res.status(200).send(result);
     } catch (error) {
-        return res.status(400).send({err: "Invalid user object."})
+        return res.status(401).send({err: "Invalid user object."})
     }
 });
 
@@ -54,7 +54,6 @@ userRouter.get('/', async (req: Request, res: Response) => {
     } catch (error) {
         return res.status(404).send({err: "Not found."})
     }
-    
 });
 
 export default userRouter;
