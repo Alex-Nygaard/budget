@@ -1,5 +1,5 @@
-import * as userRepo from '../repositories/user';
-import {UserInput, UserOutput} from '../models/User';
+import {userRepo} from '../repositories'
+import {User} from '../models'
 
 /*
 Functions:
@@ -11,19 +11,19 @@ update
 deleteById
 */
 
-export const getById = async (id: number): Promise<UserOutput> => {
+export const getById = async (id: number): Promise<User> => {
     return userRepo.getById(id);
 }
 
-export const getAll = async (): Promise<UserOutput[]> => {
+export const getAll = async (): Promise<User[]> => {
     return userRepo.getAll();
 }
 
-export const create = async (payload: UserInput): Promise<UserOutput> => {
+export const create = async (payload: User): Promise<User> => {
     return userRepo.create(payload);
 }
 
-export const update = async (id: number, payload: Partial<UserInput>): Promise<UserOutput> => {
+export const update = async (id: number, payload: Partial<User>): Promise<User> => {
     return userRepo.update(id, payload);
 }
 

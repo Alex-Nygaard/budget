@@ -1,19 +1,28 @@
-import { DataTypes, Model, Optional } from 'sequelize'
+import { DataTypes, Model, Optional, InferAttributes, InferCreationAttributes, CreationOptional, NonAttribute, Association } from 'sequelize'
 import sequelizeConnection from '../config'
+import Sheet from './Sheet'
 
-interface UserAttributes {
-    id: number;
-    email: string;
-    name: string;
-}
+// interface UserAttributes {
+//     id: number;
+//     email: string;
+//     name: string;
+// } 
 
-export interface UserInput extends Optional<UserAttributes, 'id'> {}
-export interface UserOutput extends Required<UserAttributes> {}
+// export interface UserInput extends Optional<UserAttributes, 'id'> {}
+// export interface UserOutput extends Required<UserAttributes> {}
 
-class User extends Model<UserAttributes, UserInput> implements UserAttributes {
-    public id!: number;
-    public email!: string;
-    public name!: string;
+class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+    declare id: CreationOptional<number>;
+    declare email: string;
+    declare name: string;
+    declare createdAt: CreationOptional<Date>;
+    declare updatedAt: CreationOptional<Date>;
+
+    declare sheets?: NonAttribute<Sheet[]>
+
+    declare static associations: {
+        projects: Association<User, Sheet>;
+    };
 }
 
 User.init({
@@ -29,13 +38,14 @@ User.init({
     email: {
         type: DataTypes.STRING,
         allowNull: false,
-
-    }
+    },
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
 }, {
     // options
+    tableName: 'users',
     timestamps: true,
     sequelize: sequelizeConnection,
-    paranoid: true,
 });
 
 export default User;
