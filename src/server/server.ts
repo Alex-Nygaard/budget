@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 import http from 'http';
-import express, { Express } from 'express';
+import express, { ErrorRequestHandler, Express, NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 import dbInit from './db/init';
 import router from './routes';
@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 /** RULES OF OUR API */
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next) => {
     // set the CORS policy
     res.header('Access-Control-Allow-Origin', '*');
     // set the CORS headers
@@ -34,13 +34,15 @@ app.use((req, res, next) => {
 /** Routes */
 app.use('/', router);
 
-/** Error handling */
-app.use((req, res, next) => {
-    const error = new Error('not found');
+// TODO make separate file
+const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     return res.status(404).json({
-        message: error.message
-    });
-});
+        message: err.message // CHANGE FOR PRODUCTION
+    })
+} 
+
+/** Error handling */
+app.use(errorHandler);
 
 /** Server */
 const httpServer = http.createServer(app);
