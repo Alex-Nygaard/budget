@@ -1,5 +1,3 @@
-import {User} from './user.interface';
+import { User } from './user.interface'
 
-export {
-    User,
-}
+export { User }
