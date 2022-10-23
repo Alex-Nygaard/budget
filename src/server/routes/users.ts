@@ -47,6 +47,17 @@ userRouter.delete('/:id', async (req: Request, res: Response) => {
     }
 })
 
+userRouter.get('/:id/sheets', async (req: Request, res: Response) => {
+    try {
+        const id = Number(req.params.id)
+        const result = await userController.getAllSheetsByUserId(id)
+        return res.status(200).send(result)
+    } catch (error) {
+        console.log(error)
+        return res.status(404).send({ err: 'Not found.' })
+    }
+})
+
 userRouter.get('/', async (req: Request, res: Response) => {
     try {
         const result = await userController.getAll()

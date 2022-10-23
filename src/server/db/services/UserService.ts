@@ -1,5 +1,5 @@
 import { userRepo } from '../repositories'
-import { User } from '../models'
+import { Sheet, User } from '../models'
 
 export const getById = async (id: number): Promise<User> => {
     return userRepo.getById(id)
@@ -22,4 +22,9 @@ export const update = async (
 
 export const deleteById = async (id: number): Promise<boolean> => {
     return userRepo.deleteById(id)
+}
+
+export const getAllSheetsByUserId = async (id: number): Promise<Sheet[]> => {
+    const sheets = await userRepo.getAllSheetsByUserId(id)
+    return sheets
 }

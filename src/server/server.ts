@@ -4,6 +4,7 @@ import http from 'http'
 import express, {
     ErrorRequestHandler,
     Express,
+    NextFunction,
     Request,
     Response,
 } from 'express'
@@ -43,8 +44,13 @@ app.use((req: Request, res: Response, next) => {
 app.use('/', router)
 
 // TODO make separate file
-const errorHandler: ErrorRequestHandler = (err, req, res) => {
-    return res.status(404).json({
+const errorHandler: ErrorRequestHandler = (
+    err: Error,
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    res.status(404).send({
         message: err.message, // CHANGE FOR PRODUCTION
     })
 }

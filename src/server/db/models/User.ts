@@ -6,6 +6,7 @@ import {
     CreationOptional,
     NonAttribute,
     Association,
+    HasManyGetAssociationsMixin,
 } from 'sequelize'
 import sequelizeConnection from '../config'
 import Sheet from './Sheet'
@@ -18,6 +19,8 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare updatedAt: CreationOptional<Date>
 
     declare sheets?: NonAttribute<Sheet[]>
+
+    declare getSheets: HasManyGetAssociationsMixin<Sheet>
 
     declare static associations: {
         projects: Association<User, Sheet>

@@ -1,5 +1,5 @@
 import { userService } from '../db/services'
-import User from '../db/models/User'
+import { Sheet, User } from '../db/models'
 
 /*
 Functions:
@@ -32,4 +32,9 @@ export const update = async (
 
 export const deleteById = async (id: number): Promise<boolean> => {
     return await userService.deleteById(id)
+}
+
+export const getAllSheetsByUserId = async (id: number): Promise<Sheet[]> => {
+    const sheets = await userService.getAllSheetsByUserId(id)
+    return sheets
 }

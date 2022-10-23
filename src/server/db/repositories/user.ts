@@ -1,4 +1,4 @@
-import { User } from '../models'
+import { Sheet, User } from '../models'
 
 export const getById = async (id: number): Promise<User> => {
     const user = await User.findByPk(id)
@@ -37,4 +37,10 @@ export const update = async (
 export const getAll = async (): Promise<User[]> => {
     const users = await User.findAll()
     return users
+}
+
+export const getAllSheetsByUserId = async (id: number): Promise<Sheet[]> => {
+    const user = await getById(id)
+    const sheets = await user.getSheets()
+    return sheets
 }
